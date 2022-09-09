@@ -12,7 +12,7 @@ String apikey = "aggr-435dc0e7/DataSubSoil";
 String devid = "DataSoil-1";
 float lat= -7.137237;
 float lon= 107.582877;
-String data="empty";
+String data="";
 
 // the following variables are unsigned longs because the time, measured in
 // milliseconds, will quickly become a bigger number than can be stored in an int.
@@ -26,7 +26,6 @@ uint8_t Ground = 36;
 float val[NAQC];
 
 void FetchData() {
-  data="";
   int ovr;
   int tmp;
   float ts;
@@ -56,14 +55,13 @@ void setup() {
   Serial.println("");
   Serial.print("Connected to WiFi network with IP Address: ");
   Serial.println(WiFi.localIP());
-  Serial.println("Timer set to 5 seconds (timerDelay variable), it will take 5 seconds before publishing the first reading.");
+  Serial.println("It will take 17 seconds before publishing the first reading.");
 }
 
 void loop() {
   //Send an HTTP POST request every 10 minutes
-  if(data=="") FetchData();
+  if(data=="") FetchData() ;
   else{
-    if ((millis() - lastTime) > timerDelay) {
       //Check WiFi connection status
       if(WiFi.status()== WL_CONNECTED){
         WiFiClient client;
@@ -82,15 +80,17 @@ void loop() {
         if (httpResponseCode==HTTP_CODE_OK || httpResponseCode==HTTP_CODE_MOVED_PERMANENTLY) {
          Serial.println(http.getString());
         } else {
-         Serial.println("request failure");
+         Serial.println("Request Failure, Something Wrong with HTTP Request");
         }
         // Free resources
         http.end();
+        data="";
+        Serial.println("I'm awake, but I'm going into deep sleep mode for 1 hour");
+        ESP.deepSleep(3600e6);
       }
       else {
         Serial.println("WiFi Disconnected");
+        ESP.restart();
       }
-      lastTime = millis();
-    }
   }
 }
