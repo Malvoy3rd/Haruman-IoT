@@ -7,7 +7,7 @@ const char* Wifi_ssid = "3M-GFUnpad";
 const char* Wifi_password = "haruman3mgf";
 
 //Your Domain name with URL path or IP address with path
-const char* serverName = "https://dock.unpad.ac.id/";
+const char* serverName = "https://dock.unpad.ac.id/aggr-435dc0e7/DataSubSoil";
 String apikey = "aggr-435dc0e7/DataSubSoil";
 String devid = "DataSoil-1";
 float lat= -7.137237;
